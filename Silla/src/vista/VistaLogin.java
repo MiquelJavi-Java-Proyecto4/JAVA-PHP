@@ -125,7 +125,12 @@ public class VistaLogin extends javax.swing.JFrame {
         User usuario = new User(nombre, password);
         int inicioSesion = producto.login(usuario);
             if (inicioSesion==2){
-            JOptionPane.showMessageDialog(null, "Sesion iniciada correctamente");
+            this.dispose();
+            
+            VistaInicio vistaInicio = new VistaInicio();
+            
+            vistaInicio.setVisible(true);
+            
             } else if(inicioSesion==1) {
             JOptionPane.showMessageDialog(null, "Usuario o contraeña incorrectos");
             } else {
