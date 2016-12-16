@@ -29,7 +29,7 @@ public class VistaProducto extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         guardar = new javax.swing.JButton();
-        añadir = new javax.swing.JButton();
+        nuevo = new javax.swing.JButton();
         eliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -63,10 +63,12 @@ public class VistaProducto extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 51, 0));
 
         guardar.setText("GUARDAR");
+        guardar.setEnabled(false);
 
-        añadir.setText("AÑADIR ");
+        nuevo.setText("Nuevo");
 
         eliminar.setText("ELIMINAR");
+        eliminar.setEnabled(false);
 
         jLabel1.setText("Nombre");
 
@@ -90,6 +92,7 @@ public class VistaProducto extends javax.swing.JFrame {
 
         categoria.setMaximumRowCount(4);
         categoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Sillas de comedor", "Sillones", "Barras y sillas", "Muebles de bar", "Juegos de comedor", "Tronas", "Sillas de trabajo", "Taburetes escalera", "Taburetes y bancos" }));
+        categoria.setEnabled(false);
 
         jLabel8.setText("Bloque");
 
@@ -99,12 +102,15 @@ public class VistaProducto extends javax.swing.JFrame {
 
         bloque.setMaximumRowCount(4);
         bloque.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bloque 1", "Bloque 2", "Bloque 3", "Bloque 4", "Bloque 5", "Bloque 6", "Bloque 7", "Bloque 8" }));
+        bloque.setEnabled(false);
 
         pasillo.setMaximumRowCount(4);
         pasillo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pasillo 1", "Pasillo 2", "Pasillo 3", "Pasillo 4", "Pasillo 5", "Pasillo 6", "Pasillo 7", "Pasillo 8", "Pasillo 9", "Pasillo 10", "Pasillo 11", "Pasillo 12" }));
+        pasillo.setEnabled(false);
 
         repisa.setMaximumRowCount(4);
         repisa.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Repisa 1", "Repisa 2", "Repisa 3", "Repisa 4", "Repisa 5", "Repisa 6", "Repisa 7", "Repisa 8" }));
+        repisa.setEnabled(false);
 
         jLabel10.setText("Actual");
 
@@ -117,6 +123,7 @@ public class VistaProducto extends javax.swing.JFrame {
         maximo.setEditable(false);
 
         jButton1.setText("Selecciona tu foto");
+        jButton1.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -170,7 +177,7 @@ public class VistaProducto extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(guardar)
                         .addGap(72, 72, 72)
-                        .addComponent(añadir)))
+                        .addComponent(nuevo)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -238,9 +245,8 @@ public class VistaProducto extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(guardar)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(añadir)
-                        .addComponent(eliminar)))
+                    .addComponent(nuevo)
+                    .addComponent(eliminar))
                 .addGap(29, 29, 29))
         );
 
@@ -340,7 +346,6 @@ public class VistaProducto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField actual;
-    private javax.swing.JButton añadir;
     private javax.swing.JComboBox<String> bloque;
     private javax.swing.JComboBox<String> categoria;
     private javax.swing.JButton eliminar;
@@ -366,6 +371,7 @@ public class VistaProducto extends javax.swing.JFrame {
     private javax.swing.JTextField maximo;
     private javax.swing.JTextField minimo;
     private javax.swing.JTextField nombre;
+    private javax.swing.JButton nuevo;
     private javax.swing.JComboBox<String> pasillo;
     private javax.swing.JComboBox<String> repisa;
     private javax.swing.JTextField serie;

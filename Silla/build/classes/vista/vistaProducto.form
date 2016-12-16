@@ -118,7 +118,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="guardar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="72" max="-2" attributes="0"/>
-                          <Component id="añadir" min="-2" max="-2" attributes="0"/>
+                          <Component id="nuevo" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -208,10 +208,8 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="guardar" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                          <Component id="añadir" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="eliminar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="nuevo" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="eliminar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
               </Group>
@@ -222,16 +220,18 @@
         <Component class="javax.swing.JButton" name="guardar">
           <Properties>
             <Property name="text" type="java.lang.String" value="GUARDAR"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="a&#xf1;adir">
+        <Component class="javax.swing.JButton" name="nuevo">
           <Properties>
-            <Property name="text" type="java.lang.String" value="A&#xd1;ADIR "/>
+            <Property name="text" type="java.lang.String" value="Nuevo"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="eliminar">
           <Properties>
             <Property name="text" type="java.lang.String" value="ELIMINAR"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
@@ -300,6 +300,7 @@
                 <StringItem index="8" value="Taburetes y bancos"/>
               </StringArray>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -335,6 +336,7 @@
                 <StringItem index="7" value="Bloque 8"/>
               </StringArray>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -359,6 +361,7 @@
                 <StringItem index="11" value="Pasillo 12"/>
               </StringArray>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -379,6 +382,7 @@
                 <StringItem index="7" value="Repisa 8"/>
               </StringArray>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -412,6 +416,7 @@
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Selecciona tu foto"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
       </SubComponents>
