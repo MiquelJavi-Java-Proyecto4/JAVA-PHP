@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 13, 2016 at 06:54 PM
+-- Generation Time: Dec 16, 2016 at 03:57 PM
 -- Server version: 10.1.13-MariaDB
 -- PHP Version: 7.0.6
 
@@ -333,6 +333,16 @@ CREATE TABLE `tbl_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
+-- Dumping data for table `tbl_users`
+--
+
+INSERT INTO `tbl_users` (`usu_id`, `usu_nombre`, `usu_password`) VALUES
+(1, 'dmarin', 'asdf'),
+(2, 'aplans', 'asdf'),
+(3, 'iromero', 'asdf'),
+(4, 'sjimenez', 'asdf');
+
+--
 -- Indexes for dumped tables
 --
 
@@ -445,7 +455,7 @@ ALTER TABLE `tbl_serie`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `usu_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `usu_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- Constraints for dumped tables
 --
