@@ -65,7 +65,7 @@ public class ProductoController {
         Statement st = null;
         String vectorProducto[] = new String[10];
         String vectorProducto1[] = new String[10];
-        vectorProducto1[0] = "IDProducto";
+        vectorProducto1[0] = "ID";
         vectorProducto1[1] = "Nombre";
         vectorProducto1[2] = "Nº serie";
         vectorProducto1[3] = "estoc_Actual";
