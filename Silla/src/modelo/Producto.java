@@ -19,10 +19,9 @@ public class Producto {
     }
     
     //todos los constructores
-    public Producto(int pro_id, String prod_nom, String prod_foto) {
+    public Producto(int pro_id, String prod_nom) {
         this.pro_id = pro_id;
         this.prod_nom = prod_nom;
-        this.prod_foto = prod_foto;
     }
     
     //setters
