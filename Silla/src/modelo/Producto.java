@@ -14,7 +14,7 @@ public class Producto {
     private String prod_nom;
     private String prod_foto;
     
-    //constructor basio
+    //constructor vacio
     public Producto() {
     }
     

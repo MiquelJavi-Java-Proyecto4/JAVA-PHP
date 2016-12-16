@@ -15,7 +15,7 @@ public class Proveedor {
     private String prov_adre;
     private String prov_email;
     
-    //constructor basio
+    //constructor vasiog
     public Proveedor() {
     }
     

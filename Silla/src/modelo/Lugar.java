@@ -15,7 +15,7 @@ public class Lugar {
     private String num_passadis;
     private String num_lleixa;
     
-    //constructor basio
+    //constructor vacio
     public Lugar() {
     }
     

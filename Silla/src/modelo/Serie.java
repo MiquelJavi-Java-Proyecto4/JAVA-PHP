@@ -13,7 +13,7 @@ public class Serie {
     private int serie_id;
     private String serie_nom;
     
-    //constructor basio
+    //constructor vacio
     public Serie() {
     }
     

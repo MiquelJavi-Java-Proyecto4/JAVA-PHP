@@ -14,7 +14,7 @@ public class Stock {
     private String estoc_q_max;
     private String estoc_q_min;
     
-    //constructor basio
+    //constructor vacio
     public Stock() {
     }
     
