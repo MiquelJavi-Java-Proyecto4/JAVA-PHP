@@ -61,8 +61,4 @@ public class Lugar {
         return num_lleixa;
     }
     
-    
-    
-    
-    
 }
