@@ -205,6 +205,68 @@ public class ProductoController {
         return muestra;
 
     }
+    
+   public boolean validarSerie(String serie){
+       Conexion conectar = new Conexion();
+       Connection cn = conectar.conexion();
+       
+       String sql = "SELECT * FROM tbl_serie WHERE serie_nom=?";
+       PreparedStatement pst = null;
+     
+        try {
+            pst = cn.prepareStatement(sql);
+            pst.setString(1, serie);
+            ResultSet rs = pst.executeQuery(sql);
+            if (!rs.next()){
+            return true;
+            }      
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return false;
+   }
+   
+   public void modificarProducto(String nSerie, String nom, int act, int min, int max, String cat, String  bloq, String  pas, String  rep, String numAnt){
+       Conexion conectar = new Conexion();
+       Connection cn = conectar.conexion();
+       
+       Statement st = null;
+       PreparedStatement pst = null;
+       PreparedStatement pst1 = null;
+       
+       String sql = "SELECT * FROM tbl_categoria WHERE categoria_nom=?";
+       String sql1 = "SELET * FROM tbl_serie WHERE serie_nom=?" ;
+       String sql2 = "UPDATE tbl_serie SET serie_nom=?, categoria_id=? WHERE serie_id=?";
+       String sq121 = "SELECT distinct last_insert_id() from tbl_serie";
+        try {
+            cn.setAutoCommit(false);
+            pst = cn.prepareStatement(sql);
+            pst.setString(1, cat);
+            pst.executeQuery();
+            ResultSet rs = pst.executeQuery(sql);
+            int idCat = rs.getInt("categoria_id");
+            
+            pst1 = cn.prepareStatement(sql1);
+            pst.setString(1, numAnt);
+            pst.executeQuery();
+            ResultSet rs1 = pst.executeQuery(sql1);
+            int idSer = rs1.getInt("serie_id");
+            
+            pst = cn.prepareStatement(sql2);
+            pst.setString(1, nSerie);
+            pst.setInt(2, idSer);
+            pst.setInt(3, idCat);
+            pst.executeQuery();
+            
+           
+           
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+       
+   }
 }
     
 

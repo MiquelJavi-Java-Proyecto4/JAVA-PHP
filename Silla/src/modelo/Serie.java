@@ -18,8 +18,7 @@ public class Serie {
     }
     
     //todos los constructores
-    public Serie(int serie_id, String serie_nom) {
-        this.serie_id = serie_id;
+    public Serie(String serie_nom) {
         this.serie_nom = serie_nom;
     }
     
