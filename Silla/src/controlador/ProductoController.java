@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,19 +90,44 @@ public class ProductoController {
         PreparedStatement pst7 = null;
         Statement st7=null;
         PreparedStatement pst8 = null;
-        ResultSet rs=null;
+        ResultSet rs8=null;
         try {
             //Aqui hacemos que automaticamente deshabilite la conexion.
             cn.setAutoCommit(false);
+            //
             pst1 = cn.prepareStatement(sql);
             pst1.setString(1, c.getCategoria_nom());
-            JOptionPane.showMessageDialog(null, "categoria correcot");
+            JOptionPane.showMessageDialog(null, "categoria correcta");
             //recuperamos el ultimo registro
             st2=cn.createStatement();
+            rs8 = st2.executeQuery(sql2);
+            //
+            int idst1=0;
+            while(rs8.next()){
+            idst1=rs8.getInt(1);
+            }
+            JOptionPane.showMessageDialog(null, idst1);
+            //
+            pst2 = cn.prepareStatement(sql3);
+            pst2.setString(1,s.getSerie_nom());
+            pst2.setInt(2,idst1);
+            //
+            //while(){
+                
+            //}
+            //
+            pst3 = cn.prepareStatement(sql4);
+            
+        
             
             
             
-        } catch (Exception e) {
+        } catch (SQLException | HeadlessException e) {
+            try {
+                cn.rollback();
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "No se puede deshacer");
+            }
         }
     }
     
