@@ -60,74 +60,97 @@ public class ProductoController {
     }
 
     //Visualizaremos todo lo que parece en nuestra VistaProducto
-    public void añadirProducto(Categoria c, Serie s, Producto p, Stock so, Lugar l){
+    public void añadirProducto(Serie s, Producto p, Stock so, Lugar l) throws SQLException{
         //Hacemos la conexion
         Conexion conectar=new Conexion();
         Connection cn = conectar.conexion();
         //Introduciremos las sentencias SQL con su respectivo orden
-        String sql= "INSERT INTO tbl_categoria (categoria_nom) VALUES (?)";
-        String sql1= "select distinct last_insert_id() from  tbl_categoria";
-        String sql2= "INSERT INTO tbl_serie(serie_nom) VALUES (?)";
-        String sql3= "select distinct last_insert_id() from tbl_serie";
-        String sql4= "INSERT INTO tbl_producte (prod_nom, prod_foto) VALUES (?,?)";
-        String sql5= "select disntinct last_insert_id() from tbl_producte";
-        String sql6= "INSERT INTO tbl_estoc(estoc_q_actual, estoc_min, estoc_max)VALUES(?,?,?)";
-        String sql7= "select distinct last_insert_id() from tbl_estoc";
-        String sql8= "INSERT INTO tbl_lloc(num_bloc, num_passadis, num_lleixa)VALUES(?,?,?)";
+        
+        String sql1= "INSERT INTO tbl_serie(serie_nom, ) VALUES (?)";
+        String sql2= "select distinct last_insert_id() from tbl_serie";
+        String sql3= "INSERT INTO tbl_producte (prod_nom, prod_foto) VALUES (?,?)";
+        String sql4= "select disntinct last_insert_id() from tbl_producte";
+        String sql5= "INSERT INTO tbl_lloc(num_bloc, num_passadis, num_lleixa)VALUES(?,?,?)";
+        String sql6= "select distinct last_insert_id() from tbl_lloc";
+        String sql7= "INSERT INTO tbl_estoc(estoc_q_max, estoc_q_actual, estoc_q_min)VALUES(?,?,?)";
         //ahora recogemos los datos 
         PreparedStatement pst1 = null;
-        Statement st1=null;
+        Statement st=null;
         PreparedStatement pst2 = null;
-        Statement st2=null;
-        PreparedStatement pst3 = null;
-        Statement st3=null;
-        PreparedStatement pst4 = null;
-        Statement st4=null;
-        PreparedStatement pst5 = null;
-        Statement st5=null;
-        PreparedStatement pst6 = null;
-        Statement st6=null;
-        PreparedStatement pst7 = null;
-        Statement st7=null;
-        PreparedStatement pst8 = null;
-        ResultSet rs8=null;
+        ResultSet rs=null;
+        
         try {
-            //Aqui hacemos que automaticamente deshabilite la conexion.
+            //
             cn.setAutoCommit(false);
             //
-            pst1 = cn.prepareStatement(sql);
-            pst1.setString(1, c.getCategoria_nom());
-            JOptionPane.showMessageDialog(null, "categoria correcta");
-            //recuperamos el ultimo registro
-            st2=cn.createStatement();
-            rs8 = st2.executeQuery(sql2);
+            pst1 = cn.prepareStatement(sql1);
+            pst1.setString(1, s.getSerie_nom());
+            pst1.executeUpdate();
+            //
+            st=cn.createStatement();
+            rs=st.executeQuery(sql2);
             //
             int idst1=0;
-            while(rs8.next()){
-            idst1=rs8.getInt(1);
+            while(rs.next()){
+                idst1=rs.getInt(1);  
             }
-            JOptionPane.showMessageDialog(null, idst1);
+            JOptionPane.showMessageDialog(null,idst1);
             //
             pst2 = cn.prepareStatement(sql3);
-            pst2.setString(1,s.getSerie_nom());
-            pst2.setInt(2,idst1);
+            pst2.setString(1, p.getProd_nom());
+            pst2.setString(2, p.getProd_foto());
+            pst2.setInt(3,idst1);
             //
-            //while(){
-                
-            //}
+            st=cn.createStatement();
+            rs=st.executeQuery(sql4);
             //
-            pst3 = cn.prepareStatement(sql4);
+            int idst2=0;
+            if(rs.next()){
+                idst2=rs.getInt(1);
+            }
+            JOptionPane.showMessageDialog(null, idst2);
+            //
+            pst2=cn.prepareStatement(sql5);
+            pst2.setString(1, l.getNum_lloc());
+            pst2.setString(2, l.getNum_passadis());
+            pst2.setString(3, l.getNum_lleixa());
+            //
+            st=cn.createStatement();
+            rs=st.executeQuery(sql6);
+            //
+            int idst3=0;
+            if(rs.next()){
+                idst3=rs.getInt(1); 
+            }
+            JOptionPane.showMessageDialog(null, idst3);
+            //
+            pst2=cn.prepareStatement(sql7);
+            pst2.setString(1, so.getEstoc_q_max());
+            pst2.setString(2, so.getEstoc_q_actual());
+            pst2.setString(3, so.getEstoc_q_min());
+            pst2.setInt(4,idst2);
+            pst2.setInt(5,idst3);
             
-        
+      
+       
             
             
             
+            cn.commit();
+           
         } catch (SQLException | HeadlessException e) {
             try {
                 cn.rollback();
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se puede deshacer");
             }
+        }finally{
+            cn.setAutoCommit(true);
+            cn.close();
+            pst1.close();
+            pst2.close();
+            st.close();
+            rs.close();
         }
     }
     
