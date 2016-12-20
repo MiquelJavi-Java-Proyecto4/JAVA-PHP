@@ -248,26 +248,38 @@ public class ProductoController {
     }
     
    public boolean validarSerie(String serie){
+       
+       int i = 0;
        Conexion conectar = new Conexion();
        Connection cn = conectar.conexion();
        
        String sql = "SELECT * FROM tbl_serie WHERE serie_nom=?";
+       
        PreparedStatement pst = null;
+       ResultSet rs = null;
      
         try {
             pst = cn.prepareStatement(sql);
             pst.setString(1, serie);
-            ResultSet rs = pst.executeQuery(sql);
-            if (!rs.next()){
+            rs = pst.executeQuery();
+            while (rs.next()){
+            i++;
+            } 
+            
+            if (i<=1){
             return true;
-            }      
+            }
+            
         } catch (SQLException ex) {
             Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
        return false;
    }
    
    public boolean validarUbicacion(String bloq, String pas, String rep){
+       
+       int i=0;
        Conexion conectar = new Conexion();
        Connection cn = conectar.conexion();
        
@@ -282,8 +294,12 @@ public class ProductoController {
             pst.setString(3, rep);
             ResultSet rs = pst.executeQuery();
             
-            if(!rs.next()){
-                return true;
+            while (rs.next()){
+            i++;
+            } 
+            
+            if (i<=1){
+            return true;
             }
                    
         } catch (SQLException ex) {
