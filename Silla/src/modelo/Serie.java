@@ -18,7 +18,11 @@ public class Serie {
     }
     
     //todos los constructores
+<<<<<<< HEAD
     public Serie(int serie_nom) {     
+=======
+    public Serie(String serie_nom) {
+>>>>>>> origin/master
         this.serie_nom = serie_nom;
     }
     //setters

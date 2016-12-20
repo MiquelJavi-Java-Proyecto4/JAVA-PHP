@@ -77,11 +77,11 @@ public class ProductoController {
         String sqlProducto= "INSERT INTO tbl_producte (prod_nom, prod_foto, serie_id) VALUES (?,?,?)";
         String sqlLugar= "INSERT INTO tbl_lloc(num_bloc, num_passadis, num_lleixa)VALUES(?,?,?)";
         String sqlStock= "INSERT INTO tbl_estoc(estoc_q_max, estoc_q_actual, estoc_q_min, prod_id, lloc_id)VALUES(?,?,?)";
-        
          // Compilan los IDs
         String sqlIdSerie= "select distinct last_insert_id() from tbl_serie";
         String sqlIdProducto= "select disntinct last_insert_id() from tbl_producte";
         String sqlIdLugar= "select distinct last_insert_id() from tbl_lloc";
+
         //ahora recogemos los datos 
         PreparedStatement pst1 = null;
         PreparedStatement pst2 = null;
@@ -207,6 +207,196 @@ public class ProductoController {
 
         return muestra;
 
+    }
+    
+    public DefaultTableModel updateTable() {
+        
+        DefaultTableModel muestra;
+        //1. conectarme
+        Conexion conectar = new Conexion();
+        Connection cn = conectar.conexion();
+
+        String sql = "Select * FROM tbl_lloc INNER JOIN tbl_estoc on tbl_lloc.lloc_id = tbl_estoc.lloc_id INNER JOIN tbl_producte ON tbl_producte.prod_id = tbl_estoc.prod_id INNER JOIN tbl_serie ON tbl_serie.serie_id = tbl_producte.serie_id INNER JOIN tbl_categoria ON tbl_categoria.categoria_id = tbl_serie.categoria_id ORDER BY tbl_producte.prod_id";
+        Statement st = null;
+        String vectorProducto[] = new String[10];
+  
+        try {
+
+            st = cn.createStatement();
+
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {    
+                vectorProducto[0] = rs.getString("tbl_producte.prod_id");
+                vectorProducto[1] = rs.getString("tbl_producte.prod_nom");
+                vectorProducto[2] = rs.getString("tbl_serie.serie_nom");
+                vectorProducto[3] = String.valueOf(rs.getInt("tbl_estoc.estoc_q_actual"));
+                vectorProducto[4] = String.valueOf(rs.getInt("tbl_estoc.estoc_q_min"));
+                vectorProducto[5] = String.valueOf(rs.getInt("tbl_estoc.estoc_q_max"));
+                vectorProducto[6] = rs.getString("tbl_lloc.num_bloc");
+                vectorProducto[7] = rs.getString("tbl_lloc.num_passadis");
+                vectorProducto[8] = rs.getString("tbl_lloc.num_lleixa");
+                vectorProducto[9] = rs.getString("tbl_categoria.categoria_nom");
+                muestra.addRow(vectorProducto);
+               
+            }
+        } catch (Exception e) {
+        }
+
+        return muestra;
+
+    }
+    
+   public boolean validarSerie(String serie){
+       Conexion conectar = new Conexion();
+       Connection cn = conectar.conexion();
+       
+       String sql = "SELECT * FROM tbl_serie WHERE serie_nom=?";
+       PreparedStatement pst = null;
+     
+        try {
+            pst = cn.prepareStatement(sql);
+            pst.setString(1, serie);
+            ResultSet rs = pst.executeQuery(sql);
+            if (!rs.next()){
+            return true;
+            }      
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return false;
+   }
+   
+   public boolean validarUbicacion(String bloq, String pas, String rep){
+       Conexion conectar = new Conexion();
+       Connection cn = conectar.conexion();
+       
+       PreparedStatement pst = null;
+       
+       String sql = "SELECT * FROM tbl_lloc WHERE num_bloc=? AND num_passadis=? AND num_lleixa=?";
+       
+        try {
+            pst = cn.prepareStatement(sql);
+            pst.setString(1, bloq);
+            pst.setString(2, pas);
+            pst.setString(3, rep);
+            ResultSet rs = pst.executeQuery();
+            
+            if(!rs.next()){
+                return true;
+            }
+                   
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+       return false;
+   }
+   
+   public void modificarProducto(String nSerie, String nom, int act, int min, int max, String cat, String  bloq, String  pas, String  rep, int id){
+       Conexion conectar = new Conexion();
+       Connection cn = conectar.conexion();
+       
+       Statement st = null;
+       PreparedStatement pst = null;
+       PreparedStatement pst1 = null;
+       PreparedStatement pst2 = null;
+       PreparedStatement pst3 = null;
+       PreparedStatement pst4 = null;
+       
+       String sql = "SELECT * FROM tbl_categoria WHERE categoria_nom=?";
+       String sql1 = "UPDATE tbl_serie SET serie_nom=?, categoria_id=? WHERE serie_id=?";
+       String sql2 = "UPDATE tbl_producte SET prod_nom=?, WHERE prod_id=?";
+       String sql3 = "UPDATE tbl_lloc SET num_bloc=?, num_passadis=?, num_lleixa=? WHERE lloc_id=?";
+       String sql4 = "UPDATE tbl_lloc SET estoc_q_max=?, estoc_q_actual=?, estoc_q_min=? WHERE estoc_id=?";
+       
+        try {
+            cn.setAutoCommit(false);
+            
+           pst = cn.prepareStatement(sql);
+           pst.setString(1, cat);
+           ResultSet rs = pst.executeQuery();
+           int idCat=0;
+           while(rs.next()){
+           idCat=rs.getInt("categoria_id");
+           }
+           
+           pst1 = cn.prepareStatement(sql1);
+           pst1.setString(1, nSerie);
+           pst1.setInt(2, idCat);
+           pst1.setInt(3, id);
+           pst1.executeUpdate();
+           
+           pst2 = cn.prepareStatement(sql2);
+           pst2.setString(1, nom);
+           pst2.setInt(2, id);
+           pst2.executeUpdate();
+           
+           pst3 = cn.prepareStatement(sql3);
+           pst3.setString(1, bloq);
+           pst3.setString(2, pas);
+           pst3.setString(3, rep);
+           pst3.setInt(4, id);
+           pst3.executeUpdate();
+           
+           pst4 = cn.prepareStatement(sql4);
+           pst4.setInt(1, max);
+           pst4.setInt(2, min);
+           pst4.setInt(3, act);
+           pst4.setInt(4, id);
+           pst4.executeUpdate();
+           
+           cn.setAutoCommit(true);
+        
+        JOptionPane.showMessageDialog(null, "Producto modificado correctamente");
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error en la modificacion");       
+        } 
+    }
+   
+    public void eliminar (int id){
+        Conexion conectar = new Conexion();
+        Connection cn = conectar.conexion();
+        
+        PreparedStatement pst = null;
+        PreparedStatement pst1 = null;
+        PreparedStatement pst2 = null;
+        PreparedStatement pst3 = null;
+        
+        String sql = "DELETE FROM tbl_lloc WHERE lloc_id = ?";
+        String sql1 = "DELETE FROM tbl_estoc WHERE estoc_id = ?";
+        String sql2 = "DELETE FROM tbl_producte WHERE prod_id = ?";
+        String sql3 = "DELETE FROM tbl_serie WHERE serie_id = ?";
+        
+        try {
+            
+            cn.setAutoCommit(false);
+            
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+            
+            pst1 = cn.prepareStatement(sql1);
+            pst1.setInt(1, id);
+            pst1.executeUpdate();
+            
+            pst2 = cn.prepareStatement(sql2);
+            pst2.setInt(1, id);
+            pst2.executeUpdate();
+            
+            pst3 = cn.prepareStatement(sql3);
+            pst3.setInt(1, id);
+            pst3.executeUpdate();
+            
+            cn.setAutoCommit(true);
+            
+            JOptionPane.showMessageDialog(null, "Producto eliminado correctamente");
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
+            Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
     

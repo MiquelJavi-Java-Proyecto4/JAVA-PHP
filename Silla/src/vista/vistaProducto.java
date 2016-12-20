@@ -14,6 +14,8 @@ import modelo.Lugar;
 import modelo.Producto;
 import modelo.Serie;
 import modelo.Stock;
+import java.util.ArrayList;
+
 
 /**
  *
@@ -22,6 +24,8 @@ import modelo.Stock;
 public class vistaProducto extends javax.swing.JFrame {
     
     ProductoController producto = new ProductoController();
+    
+    int id ;
     /**
      * Creates new form vistaProducto
      */
@@ -225,6 +229,8 @@ public class vistaProducto extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(eliminar))
             .addGroup(jPanel1Layout.createSequentialGroup()
+<<<<<<< HEAD
+=======
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -238,8 +244,25 @@ public class vistaProducto extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel6)
                             .addComponent(jLabel2))))
+>>>>>>> origin/master
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4)
+                        .addGap(20, 20, 20))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+<<<<<<< HEAD
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel2))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+=======
+>>>>>>> origin/master
                         .addGap(63, 63, 63)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(serie, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -432,6 +455,8 @@ public class vistaProducto extends javax.swing.JFrame {
         jTrepisa.setText(String.valueOf(jTable1.getValueAt(fila, 8)));
         jTcategoria.setText(String.valueOf(jTable1.getValueAt(fila, 9)));
         
+        id = Integer.parseInt(String.valueOf(jTable1.getValueAt(fila, 0)));
+       
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jTbloqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTbloqueActionPerformed
@@ -443,6 +468,58 @@ public class vistaProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_jTpasilloActionPerformed
 
     private void guardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarActionPerformed
+        String nSerie = serie.getText();
+        String nom = nombre.getText();
+        int act = Integer.parseInt(actual.getText());
+        int min = Integer.parseInt(minimo.getText());
+        int max = Integer.parseInt(maximo.getText());
+        String cat = jTcategoria.getText();
+        String bloq = jTbloque.getText();
+        String pas = jTpasillo.getText();
+        String rep = jTrepisa.getText();
+        
+        boolean validar = producto.validarSerie(nSerie);
+        if (!validar){
+        JOptionPane.showMessageDialog(null, "Ya existe un producto con ese numero de serie");
+        serie.requestFocus();
+        return;
+        } 
+        
+        boolean validarUbi = producto.validarUbicacion(bloq, pas, rep);
+        
+        if (!validarUbi){
+        JOptionPane.showMessageDialog(null, "Ya hay un producto en ese lugar");
+        serie.requestFocus();
+        return;
+        } 
+        
+        if(nombre.getText().length()==0){
+        JOptionPane.showMessageDialog(null, "Introduce el nombre del producto");
+        nombre.requestFocus();
+        return;
+        }
+        
+        if(actual.getText().length()==0 || producto.isNumeric(actual.getText())){
+        JOptionPane.showMessageDialog(null, "Introduce el stock actual correctamente");
+        actual.requestFocus();
+        return;
+        }
+        
+        if(minimo.getText().length()==0 || producto.isNumeric(minimo.getText())){
+        JOptionPane.showMessageDialog(null, "Introduce el stock minimo correctamente");
+        nombre.requestFocus();
+        return;
+        }
+        
+        if(maximo.getText().length()==0 || producto.isNumeric(maximo.getText())){
+        JOptionPane.showMessageDialog(null, "Introduce el stock maximo correctamente");
+        nombre.requestFocus();
+        return;
+        }
+        
+        producto.modificarProducto(nSerie, nom, act, min, max, cat, bloq, pas, rep, id);
+        
+        producto.mostrarProducto();
         
         //validar
         
@@ -525,7 +602,11 @@ public class vistaProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_nuevoActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        // TODO add your handling code here:
+        int p = JOptionPane.showConfirmDialog(null, "Estas seguro que quieres elimnar el producto?", "Eliminado", JOptionPane.YES_NO_OPTION);
+       if(p==0){
+        producto.eliminar(id);
+        producto.mostrarProducto();
+       }
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void actualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualActionPerformed
@@ -561,6 +642,7 @@ public class vistaProducto extends javax.swing.JFrame {
         maximo.setEditable(true);
         minimo.setEditable(true);
         actual.setEditable(true);
+        
     }//GEN-LAST:event_modificarActionPerformed
 
     /**
