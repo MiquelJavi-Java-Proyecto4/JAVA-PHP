@@ -28,6 +28,14 @@ import modelo.User;
  * @author Javier
  */
 public class ProductoController {
+    public static boolean isNumeric(String cadena){
+	try {
+		Integer.parseInt(cadena);
+		return true;
+	} catch (NumberFormatException nfe){
+		return false;
+	}
+    }
 
     public ProductoController() {
     }
@@ -60,82 +68,84 @@ public class ProductoController {
     }
 
     //Visualizaremos todo lo que parece en nuestra VistaProducto
-    public void añadirProducto(Serie s, Producto p, Stock so, Lugar l) throws SQLException{
+    public void añadirProducto(Serie s, Producto p, Stock so, Lugar l){
         //Hacemos la conexion
         Conexion conectar=new Conexion();
         Connection cn = conectar.conexion();
-        //Introduciremos las sentencias SQL con su respectivo orden
+        //Sentencias SQL
+        String sqlSerie= "INSERT INTO tbl_serie(serie_nom) VALUES (?)";
+        String sqlProducto= "INSERT INTO tbl_producte (prod_nom, prod_foto, serie_id) VALUES (?,?,?)";
+        String sqlLugar= "INSERT INTO tbl_lloc(num_bloc, num_passadis, num_lleixa)VALUES(?,?,?)";
+        String sqlStock= "INSERT INTO tbl_estoc(estoc_q_max, estoc_q_actual, estoc_q_min, prod_id, lloc_id)VALUES(?,?,?)";
         
-        String sql1= "INSERT INTO tbl_serie(serie_nom, ) VALUES (?)";
-        String sql2= "select distinct last_insert_id() from tbl_serie";
-        String sql3= "INSERT INTO tbl_producte (prod_nom, prod_foto) VALUES (?,?)";
-        String sql4= "select disntinct last_insert_id() from tbl_producte";
-        String sql5= "INSERT INTO tbl_lloc(num_bloc, num_passadis, num_lleixa)VALUES(?,?,?)";
-        String sql6= "select distinct last_insert_id() from tbl_lloc";
-        String sql7= "INSERT INTO tbl_estoc(estoc_q_max, estoc_q_actual, estoc_q_min)VALUES(?,?,?)";
+         // Compilan los IDs
+        String sqlIdSerie= "select distinct last_insert_id() from tbl_serie";
+        String sqlIdProducto= "select disntinct last_insert_id() from tbl_producte";
+        String sqlIdLugar= "select distinct last_insert_id() from tbl_lloc";
         //ahora recogemos los datos 
         PreparedStatement pst1 = null;
-        Statement st=null;
         PreparedStatement pst2 = null;
+        PreparedStatement pst3 = null;
+        PreparedStatement pst4 = null;
+        Statement st1=null;
+        Statement st2=null;
+        Statement st3=null;
+        
         ResultSet rs=null;
         
         try {
             //
             cn.setAutoCommit(false);
-            //
-            pst1 = cn.prepareStatement(sql1);
-            pst1.setString(1, s.getSerie_nom());
+            //hacemos la SQL1
+            pst1 = cn.prepareStatement(sqlSerie);
+            pst1.setInt(1, s.getSerie_nom());
             pst1.executeUpdate();
-            //
-            st=cn.createStatement();
-            rs=st.executeQuery(sql2);
-            //
+            //Hacemos la SQL2 y guardando el id de la SQL1
+            st1=cn.createStatement();
+            rs=st1.executeQuery(sqlIdSerie);
             int idst1=0;
             while(rs.next()){
                 idst1=rs.getInt(1);  
             }
             JOptionPane.showMessageDialog(null,idst1);
-            //
-            pst2 = cn.prepareStatement(sql3);
+            //Hacemos la SQL3 y le pasamos el id de la SQL1
+            pst2 = cn.prepareStatement(sqlProducto);
             pst2.setString(1, p.getProd_nom());
             pst2.setString(2, p.getProd_foto());
             pst2.setInt(3,idst1);
-            //
-            st=cn.createStatement();
-            rs=st.executeQuery(sql4);
-            //
+            pst2.executeUpdate();
+            //RECOGEMOS los datos del producto
+            st2=cn.createStatement();
+            rs=st2.executeQuery(sqlIdProducto);
             int idst2=0;
             if(rs.next()){
                 idst2=rs.getInt(1);
             }
             JOptionPane.showMessageDialog(null, idst2);
             //
-            pst2=cn.prepareStatement(sql5);
-            pst2.setString(1, l.getNum_lloc());
-            pst2.setString(2, l.getNum_passadis());
-            pst2.setString(3, l.getNum_lleixa());
+            pst3=cn.prepareStatement(sqlLugar);
+            pst3.setString(1, l.getNum_lloc());
+            pst3.setString(2, l.getNum_passadis());
+            pst3.setString(3, l.getNum_lleixa());
+            pst3.executeUpdate();
+           
             //
-            st=cn.createStatement();
-            rs=st.executeQuery(sql6);
-            //
+            st3=cn.createStatement();
+            rs=st3.executeQuery(sqlIdLugar);
             int idst3=0;
             if(rs.next()){
                 idst3=rs.getInt(1); 
             }
             JOptionPane.showMessageDialog(null, idst3);
             //
-            pst2=cn.prepareStatement(sql7);
-            pst2.setString(1, so.getEstoc_q_max());
-            pst2.setString(2, so.getEstoc_q_actual());
-            pst2.setString(3, so.getEstoc_q_min());
-            pst2.setInt(4,idst2);
-            pst2.setInt(5,idst3);
-            
-      
-       
-            
-            
-            
+            pst4=cn.prepareStatement(sqlStock);
+            pst4.setInt(1, so.getEstoc_q_max());
+            pst4.setInt(2, so.getEstoc_q_actual());
+            pst4.setInt(3, so.getEstoc_q_min());
+            pst4.setInt(4,idst2);
+            pst4.setInt(5,idst3);
+            pst4.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Se ha añadido correctamente");
             cn.commit();
            
         } catch (SQLException | HeadlessException e) {
@@ -144,13 +154,6 @@ public class ProductoController {
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "No se puede deshacer");
             }
-        }finally{
-            cn.setAutoCommit(true);
-            cn.close();
-            pst1.close();
-            pst2.close();
-            st.close();
-            rs.close();
         }
     }
     

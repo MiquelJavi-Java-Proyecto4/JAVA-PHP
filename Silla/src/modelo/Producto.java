@@ -19,10 +19,11 @@ public class Producto {
     }
     
     //todos los constructores
-    public Producto(int pro_id, String prod_nom) {
-        this.pro_id = pro_id;
+
+    public Producto(String prod_nom) {
         this.prod_nom = prod_nom;
     }
+    
     
     //setters
     public void setPro_id(int pro_id) {

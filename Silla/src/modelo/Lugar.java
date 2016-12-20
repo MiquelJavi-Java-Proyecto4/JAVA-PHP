@@ -20,8 +20,7 @@ public class Lugar {
     }
     
     //todos los constructores
-    public Lugar(int lloc_id, String num_lloc, String num_passadis, String num_lleixa) {
-        this.lloc_id = lloc_id;
+    public Lugar(String num_lloc, String num_passadis, String num_lleixa) {
         this.num_lloc = num_lloc;
         this.num_passadis = num_passadis;
         this.num_lleixa = num_lleixa;
