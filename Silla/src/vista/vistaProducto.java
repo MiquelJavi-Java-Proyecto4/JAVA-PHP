@@ -489,7 +489,7 @@ public class vistaProducto extends javax.swing.JFrame {
         String pas = jTpasillo.getText();
         String rep = jTrepisa.getText();
         
-        boolean validar = producto.validarSerie(nSerie);
+        /*boolean validar = producto.validarSerie(nSerie);
         if (!validar){
         JOptionPane.showMessageDialog(null, "Ya existe un producto con ese numero de serie");
         serie.requestFocus();
@@ -502,16 +502,16 @@ public class vistaProducto extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Ya hay un producto en ese lugar");
         serie.requestFocus();
         return;
-        }       
+        }*/       
         
          if (this.nombre.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un Nombre para el Producto");
             nombre.requestFocus();
             return;
         }
-         if (!ProductoController.isNumeric(this.serie.getText())) {
+         if (this.serie.getText().length()==0) {
               
-            JOptionPane.showConfirmDialog(rootPane, "Requiere en Nº de serie");
+            JOptionPane.showMessageDialog(null, "Requiere en Nº de serie");
            
             // boolean num=ControllerFactura.isNumeric(this.jtStock.getText());
             serie.requestFocus();

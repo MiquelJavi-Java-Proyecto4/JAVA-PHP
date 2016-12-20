@@ -322,9 +322,9 @@ public class ProductoController {
        
        String sql = "SELECT * FROM tbl_categoria WHERE categoria_nom=?";
        String sql1 = "UPDATE tbl_serie SET serie_nom=?, categoria_id=? WHERE serie_id=?";
-       String sql2 = "UPDATE tbl_producte SET prod_nom=?, WHERE prod_id=?";
+       String sql2 = "UPDATE tbl_producte SET prod_nom=? WHERE prod_id=?";
        String sql3 = "UPDATE tbl_lloc SET num_bloc=?, num_passadis=?, num_lleixa=? WHERE lloc_id=?";
-       String sql4 = "UPDATE tbl_lloc SET estoc_q_max=?, estoc_q_actual=?, estoc_q_min=? WHERE estoc_id=?";
+       String sql4 = "UPDATE tbl_estoc SET estoc_q_max=?, estoc_q_actual=?, estoc_q_min=? WHERE estoc_id=?";
        
         try {
             cn.setAutoCommit(false);
