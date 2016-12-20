@@ -18,7 +18,8 @@ import modelo.Serie;
 public class vistaProducto extends javax.swing.JFrame {
     
     ProductoController producto = new ProductoController();
-    ArrayList<Serie> series = new ArrayList<Serie>();
+    
+    int id ;
     /**
      * Creates new form vistaProducto
      */
@@ -426,6 +427,8 @@ public class vistaProducto extends javax.swing.JFrame {
         jTpasillo.setText(String.valueOf(jTable1.getValueAt(fila, 7)));
         jTrepisa.setText(String.valueOf(jTable1.getValueAt(fila, 8)));
         jTcategoria.setText(String.valueOf(jTable1.getValueAt(fila, 9)));
+        
+        id = Integer.parseInt(String.valueOf(jTable1.getValueAt(fila, 0)));
        
     }//GEN-LAST:event_jTable1MouseClicked
 
@@ -478,11 +481,8 @@ public class vistaProducto extends javax.swing.JFrame {
         nombre.requestFocus();
         return;
         }
-       
-        int i = series.size()-1;
-        String numAnt = series.get(i).getSerie_nom();
         
-        producto.modificarProducto(nSerie, nom, act, min, max, cat, bloq, pas, rep, numAnt);
+        producto.modificarProducto(nSerie, nom, act, min, max, cat, bloq, pas, rep, id);
         
     }//GEN-LAST:event_guardarActionPerformed
 
@@ -528,8 +528,6 @@ public class vistaProducto extends javax.swing.JFrame {
         minimo.setEditable(true);
         actual.setEditable(true);
         
-        Serie numAnt = new Serie(serie.getText());
-        series.add(numAnt);
     }//GEN-LAST:event_modificarActionPerformed
 
     /**

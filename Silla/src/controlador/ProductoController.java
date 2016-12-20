@@ -226,43 +226,63 @@ public class ProductoController {
        return false;
    }
    
-   public void modificarProducto(String nSerie, String nom, int act, int min, int max, String cat, String  bloq, String  pas, String  rep, String numAnt){
+   public void modificarProducto(String nSerie, String nom, int act, int min, int max, String cat, String  bloq, String  pas, String  rep, int id){
        Conexion conectar = new Conexion();
        Connection cn = conectar.conexion();
        
        Statement st = null;
        PreparedStatement pst = null;
        PreparedStatement pst1 = null;
+       PreparedStatement pst2 = null;
+       PreparedStatement pst3 = null;
+       PreparedStatement pst4 = null;
        
        String sql = "SELECT * FROM tbl_categoria WHERE categoria_nom=?";
-       String sql1 = "SELET * FROM tbl_serie WHERE serie_nom=?" ;
-       String sql2 = "UPDATE tbl_serie SET serie_nom=?, categoria_id=? WHERE serie_id=?";
-       String sq121 = "SELECT distinct last_insert_id() from tbl_serie";
+       String sql1 = "UPDATE tbl_serie SET serie_nom=?, categoria_id=? WHERE serie_id=?";
+       String sql2 = "UPDATE tbl_producte SET prod_nom=?, WHERE prod_id=?";
+       String sql3 = "UPDATE tbl_lloc SET num_bloc=?, num_passadis=?, num_lleixa=? WHERE lloc_id=?";
+       String sql4 = "UPDATE tbl_lloc SET estoc_q_max=?, estoc_q_actual=?, estoc_q_min=? WHERE estoc_id=?";
+       
         try {
             cn.setAutoCommit(false);
-            pst = cn.prepareStatement(sql);
-            pst.setString(1, cat);
-            pst.executeQuery();
-            ResultSet rs = pst.executeQuery(sql);
-            int idCat = rs.getInt("categoria_id");
             
-            pst1 = cn.prepareStatement(sql1);
-            pst.setString(1, numAnt);
-            pst.executeQuery();
-            ResultSet rs1 = pst.executeQuery(sql1);
-            int idSer = rs1.getInt("serie_id");
-            
-            pst = cn.prepareStatement(sql2);
-            pst.setString(1, nSerie);
-            pst.setInt(2, idSer);
-            pst.setInt(3, idCat);
-            pst.executeQuery();
-            
+           pst = cn.prepareStatement(sql);
+           pst.setString(1, cat);
+           ResultSet rs = pst.executeQuery();
+           int idCat=0;
+           while(rs.next()){
+           idCat=rs.getInt("categoria_id");
+           }
            
+           pst1 = cn.prepareStatement(sql1);
+           pst1.setString(1, nSerie);
+           pst1.setInt(2, idCat);
+           pst1.setInt(3, id);
+           pst1.executeUpdate();
            
+           pst2 = cn.prepareStatement(sql2);
+           pst2.setString(1, nom);
+           pst2.setInt(2, id);
+           pst2.executeUpdate();
+           
+           pst3 = cn.prepareStatement(sql3);
+           pst3.setString(1, bloq);
+           pst3.setString(2, pas);
+           pst3.setString(3, rep);
+           pst3.setInt(4, id);
+           pst3.executeUpdate();
+           
+           pst4 = cn.prepareStatement(sql4);
+           pst4.setInt(1, max);
+           pst4.setInt(2, min);
+           pst4.setInt(3, act);
+           pst4.setInt(4, id);
+           pst4.executeUpdate();
         
+        JOptionPane.showMessageDialog(null, "Producto modificado correctamente");
         } catch (SQLException ex) {
             Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Error en la modificacion");
         }
        
        
