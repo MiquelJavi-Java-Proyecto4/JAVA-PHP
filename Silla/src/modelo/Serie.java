@@ -11,27 +11,24 @@ package modelo;
  */
 public class Serie {
     private int serie_id;
-    private int serie_nom;
+    private String serie_nom;
     
     //constructor vacio
     public Serie() {
     }
     
-    //todos los constructores
-<<<<<<< HEAD
-    public Serie(int serie_nom) {     
-=======
+    //todos los constructores 
+
     public Serie(String serie_nom) {
->>>>>>> origin/master
         this.serie_nom = serie_nom;
     }
-    //setters
 
+    //setters
     public void setSerie_id(int serie_id) {
         this.serie_id = serie_id;
     }
 
-    public void setSerie_nom(int serie_nom) {
+    public void setSerie_nom(String serie_nom) {
         this.serie_nom = serie_nom;
     }
     
@@ -41,7 +38,7 @@ public class Serie {
         return serie_id;
     }
 
-    public int getSerie_nom() {
+    public String getSerie_nom() {
         return serie_nom;
     }
      

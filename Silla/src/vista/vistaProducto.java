@@ -26,6 +26,7 @@ public class vistaProducto extends javax.swing.JFrame {
     ProductoController producto = new ProductoController();
     
     int id ;
+    int btnGuardar;
     /**
      * Creates new form vistaProducto
      */
@@ -229,8 +230,6 @@ public class vistaProducto extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addComponent(eliminar))
             .addGroup(jPanel1Layout.createSequentialGroup()
-<<<<<<< HEAD
-=======
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
@@ -244,14 +243,6 @@ public class vistaProducto extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(jLabel6)
                             .addComponent(jLabel2))))
->>>>>>> origin/master
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel4)
-                        .addGap(20, 20, 20))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-<<<<<<< HEAD
                         .addGap(24, 24, 24)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -261,8 +252,6 @@ public class vistaProducto extends javax.swing.JFrame {
                             .addComponent(jLabel2))))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-=======
->>>>>>> origin/master
                         .addGap(63, 63, 63)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(serie, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -491,38 +480,7 @@ public class vistaProducto extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "Ya hay un producto en ese lugar");
         serie.requestFocus();
         return;
-        } 
-        
-        if(nombre.getText().length()==0){
-        JOptionPane.showMessageDialog(null, "Introduce el nombre del producto");
-        nombre.requestFocus();
-        return;
-        }
-        
-        if(actual.getText().length()==0 || producto.isNumeric(actual.getText())){
-        JOptionPane.showMessageDialog(null, "Introduce el stock actual correctamente");
-        actual.requestFocus();
-        return;
-        }
-        
-        if(minimo.getText().length()==0 || producto.isNumeric(minimo.getText())){
-        JOptionPane.showMessageDialog(null, "Introduce el stock minimo correctamente");
-        nombre.requestFocus();
-        return;
-        }
-        
-        if(maximo.getText().length()==0 || producto.isNumeric(maximo.getText())){
-        JOptionPane.showMessageDialog(null, "Introduce el stock maximo correctamente");
-        nombre.requestFocus();
-        return;
-        }
-        
-        producto.modificarProducto(nSerie, nom, act, min, max, cat, bloq, pas, rep, id);
-        
-        producto.mostrarProducto();
-        
-        //validar
-        
+        }       
         
          if (this.nombre.getText().length() == 0) {
             JOptionPane.showConfirmDialog(rootPane, "Debes ingresar un Nombre para el Producto");
@@ -553,23 +511,19 @@ public class vistaProducto extends javax.swing.JFrame {
             }
         //
         
-            if("Guardar".equals(this.guardar.getText())){
-                String nombre = this.nombre.getText();
-                int nserie = Integer.parseInt(this.serie.getText());
-                int actual = Integer.parseInt(this.actual.getText());
-                int minimo=Integer.parseInt(this.minimo.getText());
-                int maximo=Integer.parseInt(this.maximo.getText());
-                String bloque= this.jTbloque.getText();
-                String pasillo= this.jTpasillo.getText();
-                String repisa= this.jTrepisa.getText();
-                String categoria= this.jTcategoria.getText();
-                Serie s =new Serie(nserie);
-                Producto p=new Producto(nombre);
-                Stock so=new Stock(maximo, actual, minimo);
-                Lugar l=new Lugar(bloque, pasillo, repisa);
+            if(btnGuardar==0){
+                Serie s =new Serie(nSerie);
+                Producto p=new Producto(nom);
+                Stock so=new Stock(max, act, min);
+                Lugar l=new Lugar(bloq, pas, rep);
                 producto.añadirProducto(s, p, so, l);
                 this.jTable1.setModel(producto.mostrarProducto());
+            } else {
+                producto.modificarProducto(nSerie, nom, act, min, max, cat, bloq, pas, rep, id);
+                this.jTable1.setModel(producto.mostrarProducto());
+        
             }
+                  
         
                 
        
@@ -598,6 +552,7 @@ public class vistaProducto extends javax.swing.JFrame {
         this.categoria.setVisible(true);
         this.guardar.setEnabled(true);
         
+        btnGuardar=0;
        
     }//GEN-LAST:event_nuevoActionPerformed
 
@@ -605,7 +560,7 @@ public class vistaProducto extends javax.swing.JFrame {
         int p = JOptionPane.showConfirmDialog(null, "Estas seguro que quieres elimnar el producto?", "Eliminado", JOptionPane.YES_NO_OPTION);
        if(p==0){
         producto.eliminar(id);
-        producto.mostrarProducto();
+        this.jTable1.setModel(producto.mostrarProducto());
        }
     }//GEN-LAST:event_eliminarActionPerformed
 
@@ -642,6 +597,8 @@ public class vistaProducto extends javax.swing.JFrame {
         maximo.setEditable(true);
         minimo.setEditable(true);
         actual.setEditable(true);
+        
+        btnGuardar=1;
         
     }//GEN-LAST:event_modificarActionPerformed
 

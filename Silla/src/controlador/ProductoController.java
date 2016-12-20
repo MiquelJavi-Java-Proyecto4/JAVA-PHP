@@ -98,7 +98,7 @@ public class ProductoController {
             cn.setAutoCommit(false);
             //hacemos la SQL1
             pst1 = cn.prepareStatement(sqlSerie);
-            pst1.setInt(1, s.getSerie_nom());
+            pst1.setString(1, s.getSerie_nom());
             pst1.executeUpdate();
             //Hacemos la SQL2 y guardando el id de la SQL1
             st1=cn.createStatement();
@@ -211,7 +211,7 @@ public class ProductoController {
     
     public DefaultTableModel updateTable() {
         
-        DefaultTableModel muestra;
+        DefaultTableModel muestra = null;
         //1. conectarme
         Conexion conectar = new Conexion();
         Connection cn = conectar.conexion();
