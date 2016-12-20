@@ -66,7 +66,8 @@ public class ProductoController {
         Connection cn = conectar.conexion();
         //Introduciremos las sentencias SQL con su respectivo orden
         
-        String sql1= "INSERT INTO tbl_serie(serie_nom, ) VALUES (?)";
+        String sql = "";
+        String sql1= "INSERT INTO tbl_serie(serie_nom) VALUES (?)";
         String sql2= "select distinct last_insert_id() from tbl_serie";
         String sql3= "INSERT INTO tbl_producte (prod_nom, prod_foto) VALUES (?,?)";
         String sql4= "select disntinct last_insert_id() from tbl_producte";
