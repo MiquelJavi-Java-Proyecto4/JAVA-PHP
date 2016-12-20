@@ -23,7 +23,7 @@ public class vistaProducto extends javax.swing.JFrame {
     ProductoController producto = new ProductoController();
     
     int id ;
-    int btnGuardar;
+     static int btnGuardar;
     /**
      * Creates new form vistaProducto
      */
@@ -85,7 +85,7 @@ public class vistaProducto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 51, 0));
+        jPanel1.setBackground(new java.awt.Color(204, 255, 102));
 
         guardar.setText("GUARDAR");
         guardar.setEnabled(false);
@@ -342,7 +342,7 @@ public class vistaProducto extends javax.swing.JFrame {
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(foto, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -359,7 +359,7 @@ public class vistaProducto extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel2.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel2.setBackground(new java.awt.Color(153, 255, 51));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -408,11 +408,11 @@ public class vistaProducto extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         jPanel1.getAccessibleContext().setAccessibleName("");
@@ -459,12 +459,7 @@ public class vistaProducto extends javax.swing.JFrame {
         String pas = jTpasillo.getText();
         String rep = jTrepisa.getText();
         
-        boolean validar = producto.validarSerie(nSerie);
-        if (!validar){
-        JOptionPane.showMessageDialog(null, "Ya existe un producto con ese numero de serie");
-        serie.requestFocus();
-        return;
-        } 
+        
         
         boolean validarUbi = producto.validarUbicacion(bloq, pas, rep);
         
@@ -503,7 +498,7 @@ public class vistaProducto extends javax.swing.JFrame {
             }
         //
         
-            if(btnGuardar==0){
+            if(vistaProducto.btnGuardar==0){
                 Serie s =new Serie(nSerie);
                 Producto p=new Producto(nom);
                 Stock so=new Stock(max, act, min);
@@ -543,6 +538,17 @@ public class vistaProducto extends javax.swing.JFrame {
         this.categoria.setEditable(true);
         this.categoria.setVisible(true);
         this.guardar.setEnabled(true);
+        this.nombre.setText("");
+        this.serie.setText("");
+        this.actual.setText("");
+        this.maximo.setText("");
+        this.minimo.setText("");
+        this.actual.setText("");
+        this.jTbloque.setText("");
+        this.jTpasillo.setText("");
+        this.jTrepisa.setText("");
+        this.jTcategoria.setText("");
+        
         
         btnGuardar=0;
        
