@@ -226,6 +226,32 @@ public class ProductoController {
        return false;
    }
    
+   public boolean validarUbicacion(String bloq, String pas, String rep){
+       Conexion conectar = new Conexion();
+       Connection cn = conectar.conexion();
+       
+       PreparedStatement pst = null;
+       
+       String sql = "SELECT * FROM tbl_lloc WHERE num_bloc=? AND num_passadis=? AND num_lleixa=?";
+       
+        try {
+            pst = cn.prepareStatement(sql);
+            pst.setString(1, bloq);
+            pst.setString(2, pas);
+            pst.setString(3, rep);
+            ResultSet rs = pst.executeQuery();
+            
+            if(!rs.next()){
+                return true;
+            }
+                   
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+       return false;
+   }
+   
    public void modificarProducto(String nSerie, String nom, int act, int min, int max, String cat, String  bloq, String  pas, String  rep, int id){
        Conexion conectar = new Conexion();
        Connection cn = conectar.conexion();
@@ -278,15 +304,59 @@ public class ProductoController {
            pst4.setInt(3, act);
            pst4.setInt(4, id);
            pst4.executeUpdate();
+           
+           cn.setAutoCommit(true);
         
         JOptionPane.showMessageDialog(null, "Producto modificado correctamente");
         } catch (SQLException ex) {
             Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Error en la modificacion");
+            JOptionPane.showMessageDialog(null, "Error en la modificacion");       
+        } 
+    }
+   
+    public void eliminar (int id){
+        Conexion conectar = new Conexion();
+        Connection cn = conectar.conexion();
+        
+        PreparedStatement pst = null;
+        PreparedStatement pst1 = null;
+        PreparedStatement pst2 = null;
+        PreparedStatement pst3 = null;
+        
+        String sql = "DELETE FROM tbl_lloc WHERE lloc_id = ?";
+        String sql1 = "DELETE FROM tbl_estoc WHERE estoc_id = ?";
+        String sql2 = "DELETE FROM tbl_producte WHERE prod_id = ?";
+        String sql3 = "DELETE FROM tbl_serie WHERE serie_id = ?";
+        
+        try {
+            
+            cn.setAutoCommit(false);
+            
+            pst = cn.prepareStatement(sql);
+            pst.setInt(1, id);
+            pst.executeUpdate();
+            
+            pst1 = cn.prepareStatement(sql1);
+            pst1.setInt(1, id);
+            pst1.executeUpdate();
+            
+            pst2 = cn.prepareStatement(sql2);
+            pst2.setInt(1, id);
+            pst2.executeUpdate();
+            
+            pst3 = cn.prepareStatement(sql3);
+            pst3.setInt(1, id);
+            pst3.executeUpdate();
+            
+            cn.setAutoCommit(true);
+            
+            JOptionPane.showMessageDialog(null, "Producto eliminado correctamente");
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
+            Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-       
-   }
+    }
 }
     
 

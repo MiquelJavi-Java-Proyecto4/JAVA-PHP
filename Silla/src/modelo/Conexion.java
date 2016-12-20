@@ -29,7 +29,6 @@ public class Conexion {
             //Para decir la ruta del Diver.class
             Class.forName("org.gjt.mm.mysql.Driver");
             conexion=DriverManager.getConnection(url, user, pass);
-            System.out.println("Conexion establecida con éxito.");
         }catch(ClassNotFoundException | SQLException e){
             System.out.println("Conexion erronea");   
             System.out.println(e);

@@ -458,6 +458,14 @@ public class vistaProducto extends javax.swing.JFrame {
         return;
         } 
         
+        boolean validarUbi = producto.validarUbicacion(bloq, pas, rep);
+        
+        if (!validarUbi){
+        JOptionPane.showMessageDialog(null, "Ya hay un producto en ese lugar");
+        serie.requestFocus();
+        return;
+        } 
+        
         if(nombre.getText().length()==0){
         JOptionPane.showMessageDialog(null, "Introduce el nombre del producto");
         nombre.requestFocus();
@@ -491,7 +499,7 @@ public class vistaProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_nuevoActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
-        // TODO add your handling code here:
+        producto.eliminar(id);
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void actualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualActionPerformed
