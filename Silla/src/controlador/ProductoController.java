@@ -380,14 +380,12 @@ public class ProductoController {
         PreparedStatement pst2 = null;
         PreparedStatement pst3 = null;
         
-        String sql = "DELETE FROM tbl_lloc WHERE lloc_id = ?";
-        String sql1 = "DELETE FROM tbl_estoc WHERE estoc_id = ?";
-        String sql2 = "DELETE FROM tbl_producte WHERE prod_id = ?";
-        String sql3 = "DELETE FROM tbl_serie WHERE serie_id = ?";
+        String sql = "DELETE FROM tbl_estoc WHERE estoc_id = ?";
+        String sql1 = "DELETE FROM tbl_producte WHERE prod_id = ?";
+        String sql2 = "DELETE FROM tbl_lloc WHERE lloc_id = ?";
+        String sql3 = "DELETE FROM tbl_serie WHERE serie_id = ?";  
         
         try {
-            
-            cn.setAutoCommit(false);
             
             pst = cn.prepareStatement(sql);
             pst.setInt(1, id);
@@ -405,13 +403,21 @@ public class ProductoController {
             pst3.setInt(1, id);
             pst3.executeUpdate();
             
-            cn.setAutoCommit(true);
-            
             JOptionPane.showMessageDialog(null, "Producto eliminado correctamente");
             
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al eliminar el producto");
             Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                pst.close();
+                pst1.close();
+                pst2.close();
+                pst3.close();
+                cn.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 }
