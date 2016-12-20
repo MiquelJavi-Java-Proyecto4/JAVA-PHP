@@ -492,6 +492,8 @@ public class vistaProducto extends javax.swing.JFrame {
         
         producto.modificarProducto(nSerie, nom, act, min, max, cat, bloq, pas, rep, id);
         
+        producto.mostrarProducto();
+        
     }//GEN-LAST:event_guardarActionPerformed
 
     private void nuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoActionPerformed
@@ -499,7 +501,11 @@ public class vistaProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_nuevoActionPerformed
 
     private void eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarActionPerformed
+        int p = JOptionPane.showConfirmDialog(null, "Estas seguro que quieres elimnar el producto?", "Eliminado", JOptionPane.YES_NO_OPTION);
+       if(p==0){
         producto.eliminar(id);
+        producto.mostrarProducto();
+       }
     }//GEN-LAST:event_eliminarActionPerformed
 
     private void actualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_actualActionPerformed
